@@ -1,12 +1,12 @@
 package agashchuk.jpatraining.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonFilter("empAddress")
 @Entity
 public class Employee {
     @Id
@@ -24,7 +24,7 @@ public class Employee {
             joinColumns = {@JoinColumn(name = "employee_id")},
             inverseJoinColumns = {@JoinColumn(name = "project_id")})
     Set<Project> projects = new HashSet<>();
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
